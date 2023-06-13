@@ -1,6 +1,6 @@
 # FileRenamer
 
-#Workflow
+# Workflow
 1. Repo klonen
 
 2. Wechseln zu develop Branch. In Visual Studio: 
