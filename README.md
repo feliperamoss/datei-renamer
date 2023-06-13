@@ -1,7 +1,10 @@
 # FileRenamer
 
 Workflow
-Clone Repo
+Repo klonen
 
-Switch to develop branch.
-Create new branch from develop. Example: feature-change-filename
+Wechseln zu develop Branch. In Visual Studio: 
+- Git (oben)
+- Branches verwalten
+- Auf develop clicken (links)
+- Right click (neue Branch) von develop. Name Beispiel: feature-change-filename
