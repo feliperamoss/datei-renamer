@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,41 @@ namespace FileRenamer
     {
         public MainWindow()
         {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Contains("renamer"))
+            {
+                GetFiles();
+                return;
+            }
+
             InitializeComponent();
+        }
+
+        static void GetFiles()
+        {
+            string directoryPath = Directory.GetCurrentDirectory(); // Replace with the actual directory path
+
+            // Check if the specified directory exists
+            if (!Directory.Exists(directoryPath))
+            {
+                Console.WriteLine("Directory not found.");
+                return;
+            }
+            try
+            {
+                // Get all files in the directory
+                string[] files = Directory.GetFiles(directoryPath);
+
+                // Display the file names
+                foreach (string file in files)
+                {
+                    Console.WriteLine(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
         }
     }
 }
