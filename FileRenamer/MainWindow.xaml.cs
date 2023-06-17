@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace FileRenamer
 {
@@ -33,6 +34,7 @@ namespace FileRenamer
             InitializeComponent();
         }
 
+<<<<<<< HEAD
         static void GetFiles()
         {
             string directoryPath = Directory.GetCurrentDirectory(); // Replace with the actual directory path
@@ -57,6 +59,22 @@ namespace FileRenamer
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
+=======
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                ValidateNames = false,
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Select a folder."
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string selectedFolder = System.IO.Path.GetDirectoryName(dialog.FileName);
+                selectFolderTextBox.Text = selectedFolder;
+>>>>>>> develop
             }
         }
     }
