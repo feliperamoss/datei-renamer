@@ -30,7 +30,7 @@
             <!-- Define ListView columns and bindings -->
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding}" />
                     <GridViewColumn Header="Preview new name" DisplayMemberBinding="{Binding Length}" />
                     <!--<GridViewColumn Header="Last Modified" DisplayMemberBinding="{Binding LastWriteTime}" />-->
                 </GridView>

@@ -27,11 +27,14 @@ namespace FileRenamer
             string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("renamer"))
             {
-                GetFiles();
+                string directoryPath = Directory.GetCurrentDirectory();
+                FileHelper.GetFilesForConsole(directoryPath);
                 return;
             }
-
-            InitializeComponent();
+            else
+            {
+                InitializeComponent();
+            }
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -48,34 +51,10 @@ namespace FileRenamer
             {
                 string selectedFolder = System.IO.Path.GetDirectoryName(dialog.FileName);
                 selectFolderTextBox.Text = selectedFolder;
+                fileListView.ItemsSource = FileHelper.GetFilesForInterface(selectedFolder);
             }
         }
 
-        static void GetFiles()
-        {
-            string directoryPath = Directory.GetCurrentDirectory(); // Replace with the actual directory path
-
-            // Check if the specified directory exists
-            if (!Directory.Exists(directoryPath))
-            {
-                Console.WriteLine("Directory not found.");
-                return;
-            }
-            try
-            {
-                // Get all files in the directory
-                string[] files = Directory.GetFiles(directoryPath);
-
-                // Display the file names
-                foreach (string file in files)
-                {
-                    Console.WriteLine(file);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-            } 
-        }   
+       
     }
 }
