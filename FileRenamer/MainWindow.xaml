@@ -30,8 +30,14 @@
             <!-- Define ListView columns and bindings -->
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding}" />
-                    <GridViewColumn Header="Preview new name" DisplayMemberBinding="{Binding Length}" />
+                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Preview new name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NewName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <!--<GridViewColumn Header="Last Modified" DisplayMemberBinding="{Binding LastWriteTime}" />-->
                 </GridView>
             </ListView.View>
@@ -71,10 +77,10 @@
         </StackPanel>-->
 
         <!-- New Name Input Field -->
-        <!--<StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
             <TextBlock Text="New Name:" Width="100" VerticalAlignment="Center" Foreground="White" />
-            <TextBox x:Name="newNameTextBox" Width="200"  BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White" />
-        </StackPanel>-->
+            <TextBox x:Name="newNameTextBox" Width="200" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White" />
+        </StackPanel>
 
         <!-- Rename Button -->
         <!--<Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" /> -->
