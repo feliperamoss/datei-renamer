@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace FileRenamer
 {
@@ -23,6 +24,23 @@ namespace FileRenamer
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                ValidateNames = false,
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Select a folder."
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string selectedFolder = System.IO.Path.GetDirectoryName(dialog.FileName);
+                selectFolderTextBox.Text = selectedFolder;
+            }
         }
     }
 }
