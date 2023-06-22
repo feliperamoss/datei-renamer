@@ -24,17 +24,15 @@ namespace FileRenamer
     {
         public MainWindow()
         {
-            string[] args = Environment.GetCommandLineArgs();
+            InitializeComponent();
+
+            /**string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("renamer"))
             {
                 string directoryPath = Directory.GetCurrentDirectory();
-                FileHelper.GetFilesForConsole(directoryPath);
-                return;
-            }
-            else
-            {
-                InitializeComponent();
-            }
+                FileHelper.RenameFiles(directoryPath, args[1]);
+                Close(); // Close the application after executing the command-line logic
+            }**/
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
