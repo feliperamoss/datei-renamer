@@ -5,8 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileRenamer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Datei Renamer" Height="450" Width="800">
+    <Grid Background="#545454">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Input Field to Select Folder -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Select a folder:" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="selectFolderTextBox" Width="300" Height="20" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent"  Foreground="White"/>
+            <Button Content="Open" Width="100" HorizontalAlignment="Center" Margin="10" Click="OpenButton_Click" />
+        </StackPanel>
+
+        <!-- Display Files from Folder -->
+        <ListView Grid.Row="1" Margin="10" x:Name="fileListView">
+            <!-- Define ListView columns and bindings -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Preview new name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NewName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!--<GridViewColumn Header="Last Modified" DisplayMemberBinding="{Binding LastWriteTime}" />-->
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Selection Buttons -->
+        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Select All" Margin="5" />
+            <Button Content="Deselect All" Margin="5" />
+        </StackPanel>-->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <ComboBox x:Name="folderComboBox1" SelectedIndex="0" Width="150" Height="20">
+                <ComboBoxItem Content="Select Pattern" IsEnabled="False" />
+                <ComboBoxItem Content="Remove Prefix" />
+                <ComboBoxItem Content="Remove Sufix" />
+                <ComboBoxItem Content="Change Prefix" />
+                <ComboBoxItem Content="Change Sufix" />
+            </ComboBox>
+
+            <ComboBox x:Name="folderComboBox2" SelectedIndex="0" Width="150" Margin="10,0,0,0" Height="20">
+                <ComboBoxItem Content="Name only" />
+                <ComboBoxItem Content="File type" />
+            </ComboBox>
+
+            <!-- Rename Button -->
+            <Button Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" />
+
+            <!-- Quit Button -->
+            <Button Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />
+        </StackPanel>
+
+        <!-- Original Name Input Field -->
+        <!--<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Original Name:" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="originalNameTextBox"  Width="200"  BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White"/>
+        </StackPanel>-->
+
+        <!-- New Name Input Field -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="New Name:" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="newNameTextBox" Width="200" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White" />
+        </StackPanel>
+
+        <!-- Rename Button -->
+        <!--<Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" /> -->
+
+        <!-- Quit Button -->
+        <!-- <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />-->
     </Grid>
 </Window>
