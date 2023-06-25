@@ -13,8 +13,9 @@ namespace FileRenamer
             if (args.Length > 1 && args[0] == "renamer")
             {
                 string directoryPath = Environment.CurrentDirectory;
-                string filePattern = args[1];
-                FileHelper.RenameFiles(directoryPath, filePattern);
+                string sourceFilePattern = args[1];
+                string destinationFilePattern = args.Length > 2 ? args[2] : "";
+                FileHelper.RenameFiles(directoryPath, sourceFilePattern, destinationFilePattern);
             }
             else
             {
