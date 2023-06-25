@@ -128,10 +128,26 @@ using static System.Net.Mime.MediaTypeNames;
 
                     string name = splitStrings(fname)[0];
                     string num = splitStrings(fname)[1];
-                    string extension = splitStrings(fname)[2];
-                    Console.WriteLine(extension);
 
-                    return fileName.Replace(fname, name + "-" + num);
+                    // Regular expression pattern to match the desired characters
+                string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
+
+                // Match the pattern against the source file pattern
+                Match match1 = Regex.Match(destinationFilePattern, pattern1);
+                    string[] parts = new string[4];
+
+                    if (match1.Success)
+                {
+                    // Extract the matched groups
+                    parts[0] = match1.Groups[1].Value;     // String part
+                    parts[1] = match1.Groups[2].Value;     // Delimiter
+                    parts[2] = match1.Groups[3].Value;     // Numeric part
+                    parts[3] = match1.Groups[4].Value;     // File extension (optional)
+                }
+                Console.WriteLine(parts[0] + parts[1] + num);
+               
+
+                    return fileName.Replace(fname, parts[0] + parts[1] + num);
                 }
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
