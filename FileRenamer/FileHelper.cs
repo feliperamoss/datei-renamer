@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
     namespace FileRenamer
     {
-    internal class FileHelper
+    public class FileHelper
     {
         public static IEnumerable<FileInfo> GetFilesForInterface(string path)
         {
