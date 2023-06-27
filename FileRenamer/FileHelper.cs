@@ -151,11 +151,28 @@ using static System.Net.Mime.MediaTypeNames;
                 }
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
+            }  else if (splitStrings(fname)[0] != splitStrings(sourceFilePattern)[0] && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
+            {
+                return MoveNumbersToFront(fileName);
             }
             else
             {
                 return fileName.Substring(match.Index + match.Length);
             }
+        }
+
+         static string MoveNumbersToFront(string fileName)
+        {
+            //renamer img-123.jpg 123-img.jpg
+            string numberPattern = @"/d+";
+            MatchCollection numberMatches = Regex.Matches(fileName, numberPattern);
+            string newFileName = fileName;
+            foreach (Match match in numberMatches)
+            {
+                string number = match.Value;
+                newFileName = String.Join("", numberMatches) + newFileName;
+            }
+            return newFileName;
         }
 
         public static string[] splitStrings(string sourceFilePattern)
