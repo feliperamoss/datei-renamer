@@ -102,7 +102,10 @@ using static System.Net.Mime.MediaTypeNames;
             string replacedSecondPattern = destinationFilePattern.Replace("*", "");
 
             string fname = Path.GetFileNameWithoutExtension(fileName);
-         
+
+            //check if param starts with a number
+            bool startsWithNumber = Regex.IsMatch(destinationFilePattern, @"^\d");
+
             if (!string.IsNullOrEmpty(destinationFilePattern))
             {
                 if (sourceFilePattern.StartsWith("*") && destinationFilePattern.StartsWith("*"))
@@ -130,28 +133,26 @@ using static System.Net.Mime.MediaTypeNames;
                     string num = splitStrings(fname)[1];
 
                     // Regular expression pattern to match the desired characters
-                string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
+                    string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
 
-                // Match the pattern against the source file pattern
-                Match match1 = Regex.Match(destinationFilePattern, pattern1);
+                    // Match the pattern against the source file pattern
+                    Match match1 = Regex.Match(destinationFilePattern, pattern1);
                     string[] parts = new string[4];
 
                     if (match1.Success)
-                {
-                    // Extract the matched groups
-                    parts[0] = match1.Groups[1].Value;     // String part
-                    parts[1] = match1.Groups[2].Value;     // Delimiter
-                    parts[2] = match1.Groups[3].Value;     // Numeric part
-                    parts[3] = match1.Groups[4].Value;     // File extension (optional)
-                }
-                Console.WriteLine(parts[0] + parts[1] + num);
-               
+                    {
+                        // Extract the matched groups
+                        parts[0] = match1.Groups[1].Value;     // String part
+                        parts[1] = match1.Groups[2].Value;     // Delimiter
+                        parts[2] = match1.Groups[3].Value;     // Numeric part
+                        parts[3] = match1.Groups[4].Value;     // File extension (optional)
+                    }
 
                     return fileName.Replace(fname, parts[0] + parts[1] + num);
                 }
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
-            }  else if (splitStrings(fname)[0] != splitStrings(sourceFilePattern)[0] && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
+            }  else if (splitStrings(fname)[0] == splitStrings(sourceFilePattern)[0] && startsWithNumber && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
             {
                 return MoveNumbersToFront(fileName);
             }
@@ -161,18 +162,26 @@ using static System.Net.Mime.MediaTypeNames;
             }
         }
 
-         static string MoveNumbersToFront(string fileName)
+        public static string MoveNumbersToFront(string fileName)
         {
             //renamer img-123.jpg 123-img.jpg
-            string numberPattern = @"/d+";
-            MatchCollection numberMatches = Regex.Matches(fileName, numberPattern);
-            string newFileName = fileName;
-            foreach (Match match in numberMatches)
+            string fname = Path.GetFileNameWithoutExtension(fileName);
+
+            string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
+            // Regular expression pattern to match the desired characters
+            Match match1 = Regex.Match(fname, pattern1);
+            string[] parts = new string[4];
+
+            if (match1.Success)
             {
-                string number = match.Value;
-                newFileName = String.Join("", numberMatches) + newFileName;
+                // Extract the matched groups
+                parts[0] = match1.Groups[1].Value;     // String part
+                parts[1] = match1.Groups[2].Value;     // Delimiter
+                parts[2] = match1.Groups[3].Value;     // Numeric part
+                parts[3] = match1.Groups[4].Value;     // File extension (optional)
             }
-            return newFileName;
+
+            return fileName.Replace(fname, parts[2] + parts[1] + parts[0]);
         }
 
         public static string[] splitStrings(string sourceFilePattern)
