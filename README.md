@@ -1,5 +1,5 @@
 # FileRenamer - Usage
-Command: renamer img-1.jpg 1-img.jpg
+`renamer img-1.jpg 1-img.jpg`
 Result: Renames "img-1.jpg" to "1-img.jpg"
 
 Command: renamer img1.jpg img-1.jpg
