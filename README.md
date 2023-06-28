@@ -1,4 +1,4 @@
-# FileRenamer - Usage
+# FileRenamer - Verwendung in der Konsole
 
 Kopiere den gesamten Pfad von FileRenamer.exe, zum Beispiel: 
 
@@ -14,7 +14,7 @@ Ergebnis: "img-1.jpg" -> "1-img.jpg"
 
 Befehl: `renamer img1.jpg img-1.jpg`
 
-Ergbnis: "img1.jpg" -> "img-1.jpg"
+Ergebnis: "img1.jpg" -> "img-1.jpg"
 
 Befehl: `renamer img**`
 
