@@ -122,6 +122,10 @@ using static System.Net.Mime.MediaTypeNames;
                 }
                 else if (splitStrings(fname)[0] == splitStrings(sourceFilePattern)[0] && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
                 {
+                    if (startsWithNumber)
+                    {
+                        return MoveNumbersToFront(fileName);
+                    }
                     string newFilename = fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
                     if (!File.Exists(newFilename))
@@ -129,37 +133,16 @@ using static System.Net.Mime.MediaTypeNames;
                         return newFilename;
                     }
 
-                    string name = splitStrings(fname)[0];
-                    string num = splitStrings(fname)[1];
-
-                    // Regular expression pattern to match the desired characters
-                    string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
-
-                    // Match the pattern against the source file pattern
-                    Match match1 = Regex.Match(destinationFilePattern, pattern1);
-                    string[] parts = new string[4];
-
-                    if (match1.Success)
-                    {
-                        // Extract the matched groups
-                        parts[0] = match1.Groups[1].Value;     // String part
-                        parts[1] = match1.Groups[2].Value;     // Delimiter
-                        parts[2] = match1.Groups[3].Value;     // Numeric part
-                        parts[3] = match1.Groups[4].Value;     // File extension (optional)
-                    }
+                    string num = splitStrings(fname)[1];                 
+                    string[] parts = GetStringParts(destinationFilePattern);
 
                     return fileName.Replace(fname, parts[0] + parts[1] + num);
                 }
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
-            }  else if (splitStrings(fname)[0] == splitStrings(sourceFilePattern)[0] && startsWithNumber && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
-            {
-                return MoveNumbersToFront(fileName);
             }
-            else
-            {
-                return fileName.Substring(match.Index + match.Length);
-            }
+         
+            return fileName.Substring(match.Index + match.Length);
         }
 
         public static string MoveNumbersToFront(string fileName)
@@ -167,6 +150,13 @@ using static System.Net.Mime.MediaTypeNames;
             //renamer img-123.jpg 123-img.jpg
             string fname = Path.GetFileNameWithoutExtension(fileName);
 
+            string[] parts = GetStringParts(fname);
+
+            return fileName.Replace(fname, parts[2] + parts[1] + parts[0]);
+        }
+
+        public static string[] GetStringParts(string fname)
+        {
             string pattern1 = @"(\D+)([-_]+)(\d+)(\.\w+)?";
             // Regular expression pattern to match the desired characters
             Match match1 = Regex.Match(fname, pattern1);
@@ -181,7 +171,7 @@ using static System.Net.Mime.MediaTypeNames;
                 parts[3] = match1.Groups[4].Value;     // File extension (optional)
             }
 
-            return fileName.Replace(fname, parts[2] + parts[1] + parts[0]);
+            return parts;
         }
 
         public static string[] splitStrings(string sourceFilePattern)

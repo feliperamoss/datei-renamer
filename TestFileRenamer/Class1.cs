@@ -37,7 +37,7 @@ namespace TestFileRenamer
         }
 
         [Test]
-        public void TestMoveNumberToFront()
+        public void RenameFiles_MoveNumberToFront()
         {
             // Arrange
             var fileSystem = new FileSystem();
@@ -51,12 +51,101 @@ namespace TestFileRenamer
 
             // Assert
             Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "1-file.txt")));
-            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "2.txt")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "2-file.txt")));
 
             // Clean up
             fileSystem.File.Delete(Path.Combine(testDirectory, "1-file.txt"));
-            fileSystem.File.Delete(Path.Combine(testDirectory, "2.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "2-file.txt"));
             fileSystem.Directory.Delete(testDirectory, true);
         }
+
+        [Test]
+        public void RenameFiles_ThrowsExceptionWhenDestinationFileExists()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "renamed-1.txt"), "Renamed File 1 content");
+
+            // Act and Assert
+            Assert.Throws<IOException>(() =>
+            {
+                FileHelper.RenameFiles(testDirectory, "file1.txt", "renamed-1.txt");
+            });
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file1.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "renamed-1.txt"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_IgnoresFilesWithDifferentExtension()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file1.jpg"), "File 1 image content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "file1.txt", "renamed-1.txt");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "renamed-1.txt")));
+            Assert.IsFalse(fileSystem.File.Exists(Path.Combine(testDirectory, "renamed-1.jpg")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "renamed-1.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file1.jpg"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_UpdatesFileNameWithNumberMovedToFront()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "img-123.jpg"), "Image 123 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "img-123.jpg", "123-img.jpg");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "123-img.jpg")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "123-img.jpg"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_UpdatesFileNameWithNumberMovedToFrontWhenMultipleFilesPresent()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "file-1.txt", "1-file.txt");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "1-file.txt")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "2-file.txt")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "1-file.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "2-file.txt"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
     }
 }
