@@ -6,6 +6,8 @@ C:\Documents\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe und füge den gew
 
 C:\docs\c#\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe renamer img1.jpg img-1.jgp
 
+# Befehle Beispiele:
+
 Befehl: `renamer img-1.jpg 1-img.jpg`
 
 Ergebnis: "img-1.jpg" -> "1-img.jpg"
