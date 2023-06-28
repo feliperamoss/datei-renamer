@@ -1,4 +1,11 @@
 # FileRenamer - Usage
+
+Kopiere den gesamten Pfad von FileRenamer.exe, zum Beispiel: 
+
+C:\Documents\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe und füge den gewünschten Befehl hinzu.
+
+C:\docs\c#\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe renamer img1.jpg img-1.jgp
+
 Befehl: `renamer img-1.jpg 1-img.jpg`
 
 Ergebnis: "img-1.jpg" -> "1-img.jpg"
