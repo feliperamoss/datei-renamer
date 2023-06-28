@@ -113,6 +113,8 @@ using static System.Net.Mime.MediaTypeNames;
                     if (Path.GetExtension(fileName).Equals("." + replacedFirstPattern, StringComparison.OrdinalIgnoreCase))
                     {
                         // The file has a matching extension
+                        //Command: renamer *jpg* *png*
+                        //Result: change extension of all files
                         return Path.ChangeExtension(fileName, replacedSecondPattern);
                     }
                     else
@@ -124,6 +126,8 @@ using static System.Net.Mime.MediaTypeNames;
                 {
                     if (startsWithNumber)
                     {
+                        //Command: renamer img-1.jpg 1-img.jpg
+                        //Result: 1-img.jpg
                         return MoveNumbersToFront(fileName);
                     }
                     string newFilename = fileName.Replace(replacedFirstPattern, replacedSecondPattern);
@@ -136,8 +140,13 @@ using static System.Net.Mime.MediaTypeNames;
                     string num = splitStrings(fname)[1];                 
                     string[] parts = GetStringParts(destinationFilePattern);
 
+                    //Command: renamer img1.jpg img-1.jpg
+                    //Result: img-1.jpg
                     return fileName.Replace(fname, parts[0] + parts[1] + num);
                 }
+
+                //Command: renamer img**
+                //Result: removes img of all files
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
             }

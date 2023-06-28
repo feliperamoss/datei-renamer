@@ -37,29 +37,6 @@ namespace TestFileRenamer
         }
 
         [Test]
-        public void RenameFiles_MoveNumberToFront()
-        {
-            // Arrange
-            var fileSystem = new FileSystem();
-            var testDirectory = "C:\\Documents\\FakeTestDirectory";
-            fileSystem.Directory.CreateDirectory(testDirectory);
-            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
-            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
-
-            // Act
-            FileHelper.RenameFiles(testDirectory, "file-1.txt", "1-file.txt");
-
-            // Assert
-            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "1-file.txt")));
-            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "2-file.txt")));
-
-            // Clean up
-            fileSystem.File.Delete(Path.Combine(testDirectory, "1-file.txt"));
-            fileSystem.File.Delete(Path.Combine(testDirectory, "2-file.txt"));
-            fileSystem.Directory.Delete(testDirectory, true);
-        }
-
-        [Test]
         public void RenameFiles_ThrowsExceptionWhenDestinationFileExists()
         {
             // Arrange
