@@ -1,7 +1,7 @@
 # FileRenamer - Usage
 Befehl: `renamer img-1.jpg 1-img.jpg`
 
-ERgebnis: "img-1.jpg" -> "1-img.jpg"
+Ergebnis: "img-1.jpg" -> "1-img.jpg"
 
 Befehl: `renamer img1.jpg img-1.jpg`
 
@@ -14,6 +14,10 @@ Ergebnis: Entfernt "img" aus den Dateinamen aller Dateien
 Befehl: `renamer *jpg* *png*`
 
 Ergebnis: Ändert den Dateityp aller Dateien in"png"
+
+Befehl: renamer *.jpg*`
+
+Ergebnis: Entfernt ".jpg" aus den Dateinamen aller Dateie
 
 # Workflow
 1. Repo klonen
