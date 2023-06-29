@@ -105,6 +105,7 @@ using static System.Net.Mime.MediaTypeNames;
 
             //check if param starts with a number
             bool startsWithNumber = Regex.IsMatch(destinationFilePattern, @"^\d");
+            bool SourceStartsWithNumber = Regex.IsMatch(sourceFilePattern, @"^\d");
 
             if (!string.IsNullOrEmpty(destinationFilePattern))
             {
@@ -119,8 +120,14 @@ using static System.Net.Mime.MediaTypeNames;
                     }
                     else
                     {
-                        Console.WriteLine("No macthing file extension");
+                        Console.WriteLine("No matching file extension");
                     }
+                }
+                else if (SourceStartsWithNumber && Path.GetExtension(fileName) == Path.GetExtension(sourceFilePattern))
+                {
+                    string outputString = Regex.Replace(fname, @"(\d+)-(.*)", @"$2-$1");
+
+                    return outputString + Path.GetExtension(fileName);
                 }
                 else if (splitStrings(fname)[0] == splitStrings(sourceFilePattern)[0] && Path.GetExtension(fileName) == splitStrings(sourceFilePattern)[2])
                 {
