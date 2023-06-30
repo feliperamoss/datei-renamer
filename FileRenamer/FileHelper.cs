@@ -156,6 +156,9 @@ using static System.Net.Mime.MediaTypeNames;
                 //Result: removes img of all files
                 return fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
+            } else if (sourceFilePattern.StartsWith("*"))
+            {
+                return fname;
             }
          
             return fileName.Substring(match.Index + match.Length);

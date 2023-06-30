@@ -124,5 +124,96 @@ namespace TestFileRenamer
             fileSystem.Directory.Delete(testDirectory, true);
         }
 
+        [Test]
+        public void RenameFiles_ChangeFileExtension()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "*.txt*", "*.png*");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "file-1.png")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "file-2.png")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file-1.png"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file-2.png"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_RemovePrefix()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "file-**");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "1.txt")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "2.txt")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "1.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "2.txt"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_RemoveFileExtension()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "*.txt*");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "file-1")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "file-2")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file-1"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "file-2"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
+
+        [Test]
+        public void RenameFiles_UpdateFilenamePrefix()
+        {
+            // Arrange
+            var fileSystem = new FileSystem();
+            var testDirectory = "C:\\Documents\\FakeTestDirectory";
+            fileSystem.Directory.CreateDirectory(testDirectory);
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-1.txt"), "File 1 content");
+            fileSystem.File.WriteAllText(Path.Combine(testDirectory, "file-2.txt"), "File 2 content");
+
+            // Act
+            FileHelper.RenameFiles(testDirectory, "file-*", "foo-*");
+
+            // Assert
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "foo-1.txt")));
+            Assert.IsTrue(fileSystem.File.Exists(Path.Combine(testDirectory, "foo-2.txt")));
+
+            // Clean up
+            fileSystem.File.Delete(Path.Combine(testDirectory, "foo-1.txt"));
+            fileSystem.File.Delete(Path.Combine(testDirectory, "foo-2.txt"));
+            fileSystem.Directory.Delete(testDirectory, true);
+        }
     }
 }
