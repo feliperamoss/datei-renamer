@@ -24,6 +24,10 @@ Befehl: `renamer *jpg* *png*`
 
 Ergebnis: Ändert den Dateityp aller Dateien in"png"
 
+Befehl: `renamer img-* image-*`
+
+Ergebnis: "img-1.jpg" -> "image-1.jpg"
+
 Befehl: `renamer *.jpg*`
 
 Ergebnis: Entfernt ".jpg" aus den Dateinamen aller Dateie
