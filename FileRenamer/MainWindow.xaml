@@ -31,13 +31,15 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Preview new name">
+                    <GridViewColumn Header="Changed Files" DisplayMemberBinding="{Binding ChangeStatus}" />
+                    <GridViewColumn Header="New Name" DisplayMemberBinding="{Binding NewName}" />
+                    <!--<GridViewColumn Header="Changed Files">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding NewName}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>-->
                     <!--<GridViewColumn Header="Last Modified" DisplayMemberBinding="{Binding LastWriteTime}" />-->
                 </GridView>
             </ListView.View>
@@ -50,7 +52,7 @@
         </StackPanel>-->
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
-            <ComboBox x:Name="folderComboBox1" SelectedIndex="0" Width="150" Height="20">
+            <ComboBox x:Name="folderComboBox1" SelectedIndex="0" Width="150" Height="20" SelectionChanged="FolderComboBox1_SelectionChanged">
                 <ComboBoxItem Content="Select Pattern" IsEnabled="False" />
                 <ComboBoxItem Content="Remove Prefix" />
                 <ComboBoxItem Content="Remove Sufix" />
@@ -64,28 +66,28 @@
             </ComboBox>
 
             <!-- Rename Button -->
-            <Button Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" />
+            <!--<Button Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" />-->
 
             <!-- Quit Button -->
-            <Button Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />
+            <!--<Button Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />-->
         </StackPanel>
 
         <!-- Original Name Input Field -->
-        <!--<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Original Name:" Width="100" VerticalAlignment="Center" Foreground="White" />
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Original Name:" x:Name="originalNameLabel" Width="100" VerticalAlignment="Center" Foreground="White" />
             <TextBox x:Name="originalNameTextBox"  Width="200"  BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White"/>
-        </StackPanel>-->
+        </StackPanel>
 
         <!-- New Name Input Field -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
-            <TextBlock Text="New Name:" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBlock Text="New Name:" x:Name="newNameLabel" Width="100" VerticalAlignment="Center" Foreground="White" />
             <TextBox x:Name="newNameTextBox" Width="200" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White" />
         </StackPanel>
 
         <!-- Rename Button -->
-        <!--<Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" /> -->
+        <Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" Click="RenameButton_Click"/>
 
         <!-- Quit Button -->
-        <!-- <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />-->
+        <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />
     </Grid>
 </Window>

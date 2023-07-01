@@ -22,6 +22,8 @@ namespace FileRenamer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<FileData> fileDataList;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -53,6 +55,54 @@ namespace FileRenamer
             }
         }
 
+        private void RenameButton_Click(object sender, RoutedEventArgs e)
+        {
+            string selectedFolder = selectFolderTextBox.Text;
+            //string sourcePattern = "*";
+            //string destinationPattern = string.Empty;
+            string sourcePattern;
+            string destinationPattern;
+
+            if (folderComboBox1.SelectedIndex == 2) // "Remove Suffix" selected
+            {
+                sourcePattern = "*.*";
+            }
+            else if (folderComboBox1.SelectedIndex == 3) // "Change Prefix" selected
+            {
+                sourcePattern = originalNameTextBox.Text;
+                destinationPattern = newNameTextBox.Text;
+                List<FileData> fileDataList = FileHelper.RenameFiles(selectedFolder, sourcePattern, destinationPattern);
+
+                // Refresh the ListView
+                fileListView.ItemsSource = fileDataList;
+                CollectionViewSource.GetDefaultView(fileListView.ItemsSource).Refresh();
+                MessageBox.Show("Filename was upated successfully!");
+            }
+            else if (folderComboBox1.SelectedIndex == 4) // "Change Prefix" selected
+            {
+                sourcePattern = "*." + originalNameTextBox.Text + "*";
+                destinationPattern = "*." + newNameTextBox.Text + "*";
+                List<FileData> fileDataList = FileHelper.RenameFiles(selectedFolder, sourcePattern, destinationPattern);
+
+                // Refresh the ListView
+                fileListView.ItemsSource = fileDataList;
+                CollectionViewSource.GetDefaultView(fileListView.ItemsSource).Refresh();
+                MessageBox.Show("File type was upated successfully!");
+            }
+
+        }
+
+        private void FolderComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem selectedComboBoxItem = (ComboBoxItem)folderComboBox1.SelectedItem;
+            string selectedItemContent = selectedComboBoxItem.Content.ToString();
+
+            if (selectedItemContent == "Change Sufix")
+            {
+                originalNameLabel.Text = "Original Extension:";
+                newNameLabel.Text = "New Extension:";
+            }
+        }
 
     }
 }

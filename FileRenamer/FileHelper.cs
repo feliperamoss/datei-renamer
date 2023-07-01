@@ -6,7 +6,8 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Windows;
-using static System.Net.Mime.MediaTypeNames;
+    using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 
     namespace FileRenamer
     {
@@ -57,8 +58,11 @@ using static System.Net.Mime.MediaTypeNames;
             }
         }
 
-        public static void RenameFiles(string directoryPath, string sourceFilePattern, string destinationFilePattern = "")
+        public static List<FileData> RenameFiles(string directoryPath, string sourceFilePattern, string destinationFilePattern = "")
         {
+            List<FileData> fileDataList;
+            fileDataList = new List<FileData>();
+
             // Retrieve the list of files in the specified directory
             string[] fileNames = Directory.GetFiles(directoryPath);
 
@@ -79,14 +83,29 @@ using static System.Net.Mime.MediaTypeNames;
                 // Check if the source and destination paths are the same
                 if (!string.Equals(fileName, newPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (File.Exists(newPath))
+                    if (System.IO.File.Exists(newPath))
                     {
                         throw new IOException($"Destination file already exists: {newPath}");
                     }
-                    File.Move(fileName, newPath);
+                    System.IO.File.Move(fileName, newPath);
+                    fileDataList.Add(new FileData { 
+                        Name = Path.GetFileName(fileName), 
+                        NewName = Path.GetFileName(newPath), 
+                        ChangeStatus = "Updated" });
                     Console.WriteLine(newPath);
                 }
+                else
+                {
+                    fileDataList.Add(new FileData
+                    {
+                        Name = Path.GetFileName(fileName),
+                        NewName = Path.GetFileName(newPath),
+                        ChangeStatus = "Unchanged"
+                    });
+                }
             }
+
+            return fileDataList;
         }
 
         private static string ExtractPatternAndModifyFileName(string fileName, string sourceFilePattern, string destinationFilePattern)
@@ -139,7 +158,7 @@ using static System.Net.Mime.MediaTypeNames;
                     }
                     string newFilename = fileName.Replace(replacedFirstPattern, replacedSecondPattern);
 
-                    if (!File.Exists(newFilename))
+                    if (!System.IO.File.Exists(newFilename))
                     {
                         return newFilename;
                     }
