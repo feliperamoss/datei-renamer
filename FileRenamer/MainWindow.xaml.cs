@@ -22,19 +22,9 @@ namespace FileRenamer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<FileData> fileDataList;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            /**string[] args = Environment.GetCommandLineArgs();
-            if (args.Contains("renamer"))
-            {
-                string directoryPath = Directory.GetCurrentDirectory();
-                FileHelper.RenameFiles(directoryPath, args[1]);
-                Close(); // Close the application after executing the command-line logic
-            }**/
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -55,41 +45,82 @@ namespace FileRenamer
             }
         }
 
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+
         private void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-            string selectedFolder = selectFolderTextBox.Text;
-            //string sourcePattern = "*";
-            //string destinationPattern = string.Empty;
+            ComboBoxItem selectedComboBoxItem = (ComboBoxItem)folderComboBox1.SelectedItem;
+            string selectedItemContent = selectedComboBoxItem.Content.ToString();
             string sourcePattern;
             string destinationPattern;
 
-            if (folderComboBox1.SelectedIndex == 2) // "Remove Suffix" selected
-            {
-                sourcePattern = "*.*";
-            }
-            else if (folderComboBox1.SelectedIndex == 3) // "Change Prefix" selected
+            if (selectedItemContent == "Add hyphen to name")
             {
                 sourcePattern = originalNameTextBox.Text;
                 destinationPattern = newNameTextBox.Text;
-                List<FileData> fileDataList = FileHelper.RenameFiles(selectedFolder, sourcePattern, destinationPattern);
-
-                // Refresh the ListView
-                fileListView.ItemsSource = fileDataList;
-                CollectionViewSource.GetDefaultView(fileListView.ItemsSource).Refresh();
-                MessageBox.Show("Filename was upated successfully!");
+                RenameFilesAndDisplay(sourcePattern, destinationPattern, "Filename was upated successfully!");
             }
-            else if (folderComboBox1.SelectedIndex == 4) // "Change Prefix" selected
+            else if (selectedItemContent == "Change prefix")
+            {
+                sourcePattern = originalNameTextBox.Text;
+                destinationPattern = newNameTextBox.Text;
+                RenameFilesAndDisplay(sourcePattern, destinationPattern, "Filename was upated successfully!");
+            }
+            else if (selectedItemContent == "Remove substring")
+            {
+                sourcePattern = originalNameTextBox.Text;
+                RenameFilesAndDisplay(sourcePattern, "", "Filename was upated successfully!");
+            }
+            else if (selectedItemContent == "Move number to front")
+            {
+                sourcePattern = originalNameTextBox.Text;
+                destinationPattern = newNameTextBox.Text;
+                RenameFilesAndDisplay(sourcePattern, destinationPattern, "Filename was upated successfully!");
+            }
+            else if (selectedItemContent == "Change file type") // "Change Prefix" selected
             {
                 sourcePattern = "*." + originalNameTextBox.Text + "*";
                 destinationPattern = "*." + newNameTextBox.Text + "*";
-                List<FileData> fileDataList = FileHelper.RenameFiles(selectedFolder, sourcePattern, destinationPattern);
-
-                // Refresh the ListView
-                fileListView.ItemsSource = fileDataList;
-                CollectionViewSource.GetDefaultView(fileListView.ItemsSource).Refresh();
-                MessageBox.Show("File type was upated successfully!");
+                RenameFilesAndDisplay(sourcePattern, destinationPattern, "File type was upated successfully!");
+            }
+            else if (selectedItemContent == "Remove file type") // "Change Prefix" selected
+            {
+                sourcePattern = "*." + originalNameTextBox.Text + "*";
+                RenameFilesAndDisplay(sourcePattern, "", "File type was removed successfully!");
             }
 
+        }
+
+        private void RenameFilesAndDisplay(string sourcePattern, string destinationPattern, string message)
+        {
+            string selectedFolder = selectFolderTextBox.Text;
+            List<FileData> fileDataList = FileHelper.RenameFiles(selectedFolder, sourcePattern, destinationPattern);
+
+            // Refresh the ListView
+            try
+            {
+                fileListView.ItemsSource = fileDataList;
+                CollectionViewSource.GetDefaultView(fileListView.ItemsSource).Refresh();
+
+                bool anyUpdated = fileDataList.Any(fileData => fileData.ChangeStatus.Contains("Updated"));
+
+                if (anyUpdated)
+                {
+                    MessageBox.Show(message, "Operation Completed", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No files matching the specified criteria found. No files were updated.", "Operation Completed", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred during file renaming:\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void FolderComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -97,12 +128,27 @@ namespace FileRenamer
             ComboBoxItem selectedComboBoxItem = (ComboBoxItem)folderComboBox1.SelectedItem;
             string selectedItemContent = selectedComboBoxItem.Content.ToString();
 
-            if (selectedItemContent == "Change Sufix")
+            if (selectedItemContent == "Change file type")
             {
                 originalNameLabel.Text = "Original Extension:";
                 newNameLabel.Text = "New Extension:";
+                newNameTextBox.Visibility = Visibility.Visible;  // Hide the input field
+
+            }
+            else if (selectedItemContent == "Remove file type")
+            {
+                originalNameLabel.Text = "Original Extension:";
+                newNameLabel.Text = "";  // Remove the label text (optional)
+                newNameTextBox.Visibility = Visibility.Collapsed;  // Hide the input field
+                newNameTextBox.Text = "";  // Clear the input field's value (optional)
+            }
+            else if (selectedItemContent == "Add hyphen to name" ||
+                selectedItemContent == "Change prefix" || selectedItemContent == "Remove substring" || selectedItemContent == "Move number to front")
+            {
+                originalNameLabel.Text = "Original Name:";
+                newNameLabel.Text = "New Name:"; 
+                newNameTextBox.Visibility = Visibility.Visible;  // Hide the input field
             }
         }
-
     }
 }

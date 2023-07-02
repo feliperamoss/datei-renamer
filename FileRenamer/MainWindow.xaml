@@ -30,46 +30,23 @@
             <!-- Define ListView columns and bindings -->
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Changed Files" DisplayMemberBinding="{Binding ChangeStatus}" />
-                    <GridViewColumn Header="New Name" DisplayMemberBinding="{Binding NewName}" />
-                    <!--<GridViewColumn Header="Changed Files">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding NewName}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
-                    <!--<GridViewColumn Header="Last Modified" DisplayMemberBinding="{Binding LastWriteTime}" />-->
+                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Changed Files" DisplayMemberBinding="{Binding ChangeStatus}" Width="150"/>
+                    <GridViewColumn Header="New Name" DisplayMemberBinding="{Binding NewName}" Width="150" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <!-- Selection Buttons -->
-        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Select All" Margin="5" />
-            <Button Content="Deselect All" Margin="5" />
-        </StackPanel>-->
-
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
             <ComboBox x:Name="folderComboBox1" SelectedIndex="0" Width="150" Height="20" SelectionChanged="FolderComboBox1_SelectionChanged">
                 <ComboBoxItem Content="Select Pattern" IsEnabled="False" />
-                <ComboBoxItem Content="Remove Prefix" />
-                <ComboBoxItem Content="Remove Sufix" />
-                <ComboBoxItem Content="Change Prefix" />
-                <ComboBoxItem Content="Change Sufix" />
+                <ComboBoxItem Content="Add hyphen to name" />
+                <ComboBoxItem Content="Change prefix" />
+                <ComboBoxItem Content="Remove substring" />
+                <ComboBoxItem Content="Move number to front" />
+                <ComboBoxItem Content="Change file type" />
+                <ComboBoxItem Content="Remove file type" />
             </ComboBox>
-
-            <ComboBox x:Name="folderComboBox2" SelectedIndex="0" Width="150" Margin="10,0,0,0" Height="20">
-                <ComboBoxItem Content="Name only" />
-                <ComboBoxItem Content="File type" />
-            </ComboBox>
-
-            <!-- Rename Button -->
-            <!--<Button Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" />-->
-
-            <!-- Quit Button -->
-            <!--<Button Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />-->
         </StackPanel>
 
         <!-- Original Name Input Field -->
@@ -88,6 +65,6 @@
         <Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" Click="RenameButton_Click"/>
 
         <!-- Quit Button -->
-        <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" />
+        <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" Click="QuitButton_Click" />
     </Grid>
 </Window>
