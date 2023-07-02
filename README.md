@@ -28,6 +28,10 @@ Befehl: `renamer img-* image-*`
 
 Ergebnis: "img-1.jpg" -> "image-1.jpg"
 
+Befehl: `renamer img-1.jpg image-1.jpg`
+
+Ergebnis: Ändern alle Dateien mit dem gleichen Datentyp "img-1.jpg" -> "image-1.jpg"
+
 Befehl: `renamer *.jpg*`
 
 Ergebnis: Entfernt ".jpg" aus den Dateinamen aller Dateie
