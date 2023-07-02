@@ -5,8 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileRenamer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Datei Renamer" Height="450" Width="800">
+    <Grid Background="#545454">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Input Field to Select Folder -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Select a folder:" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="selectFolderTextBox" Width="300" Height="20" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent"  Foreground="White"/>
+            <Button Content="Open" Width="100" HorizontalAlignment="Center" Margin="10" Click="OpenButton_Click" />
+        </StackPanel>
+
+        <!-- Display Files from Folder -->
+        <ListView Grid.Row="1" Margin="10" x:Name="fileListView">
+            <!-- Define ListView columns and bindings -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="File Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Changed Files" DisplayMemberBinding="{Binding ChangeStatus}" Width="150"/>
+                    <GridViewColumn Header="New Name" DisplayMemberBinding="{Binding NewName}" Width="150" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <ComboBox x:Name="folderComboBox1" SelectedIndex="0" Width="150" Height="20" SelectionChanged="FolderComboBox1_SelectionChanged">
+                <ComboBoxItem Content="Select Pattern" IsEnabled="False" />
+                <ComboBoxItem Content="Add hyphen to name" />
+                <ComboBoxItem Content="Change prefix" />
+                <ComboBoxItem Content="Remove substring" />
+                <ComboBoxItem Content="Move number to front" />
+                <ComboBoxItem Content="Change file type" />
+                <ComboBoxItem Content="Remove file type" />
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Original Name Input Field -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Original Name:" x:Name="originalNameLabel" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="originalNameTextBox"  Width="200"  BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White"/>
+        </StackPanel>
+
+        <!-- New Name Input Field -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="New Name:" x:Name="newNameLabel" Width="100" VerticalAlignment="Center" Foreground="White" />
+            <TextBox x:Name="newNameTextBox" Width="200" BorderThickness="1" BorderBrush="#d9d9d9" Background="Transparent" Foreground="White" />
+        </StackPanel>
+
+        <!-- Rename Button -->
+        <Button Grid.Row="3" Content="Rename" Width="100" HorizontalAlignment="Center" Margin="10" Click="RenameButton_Click"/>
+
+        <!-- Quit Button -->
+        <Button Grid.Row="4" Content="Quit" Width="100" HorizontalAlignment="Center" Margin="10" Click="QuitButton_Click" />
     </Grid>
 </Window>
